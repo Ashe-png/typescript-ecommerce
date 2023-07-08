@@ -4,6 +4,7 @@ export interface IUser {
   name: string;
   email: string;
   role: string;
+  cart: any;
   address: string;
 }
 
@@ -19,10 +20,10 @@ const userSchema = new Schema<IUser>(
       type: String,
       default: 'subscriber',
     },
-    // cart: {
-    //   type: Array,
-    //   default: [],
-    // },
+    cart: {
+      type: Array,
+      default: [],
+    },
     address: String,
     // wishlist: [{ type: ObjectId, ref: 'Product' }],
   },
