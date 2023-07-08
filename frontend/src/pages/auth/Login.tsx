@@ -2,16 +2,12 @@ import { useState, useEffect, FormEvent } from 'react';
 import { auth, googleAuthProvider } from '../../firebase';
 import { toast } from 'react-toastify';
 import { Button } from 'antd';
-import {
-  MailOutlined,
-  GoogleOutlined,
-  RightCircleFilled,
-} from '@ant-design/icons';
+import { MailOutlined, GoogleOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 //import ReactLoading from "react-loading";
 import { Link } from 'react-router-dom';
-// import { createOrUpdateUser } from '../../functions/auth';
+import { createOrUpdateUser } from '../../functions/auth';
 
 // const roleBasedRedirect = (res) => {
 //   if (res.data.role === "admin") {
@@ -59,21 +55,30 @@ const Login = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    //console.table(email, password);
+    console.table(email);
     try {
       const result = await auth.signInWithEmailAndPassword(email, password);
-      //console.log(result);
+      console.log(result);
       const { user } = result;
       const idTokenResult = await user?.getIdTokenResult();
 
-      dispatch({
-        type: 'LOGGED_IN_USER',
-        payload: {
-          email: user?.email,
-          token: idTokenResult?.token,
-        },
-      });
-      navigate('/');
+      createOrUpdateUser(idTokenResult!.token)
+        .then((res) => {
+          dispatch({
+            type: 'LOGGED_IN_USER',
+            payload: {
+              name: res.data.name,
+              email: res.data.email,
+              token: idTokenResult!.token,
+              role: res.data.role,
+              _id: res.data._id,
+            },
+          });
+          roleBasedRedirect(res);
+          setLoading(false);
+        })
+        .catch((err: any) => console.log(err));
+      // navigate("/");
     } catch (error: any) {
       setLoading(false);
       console.log(error);
@@ -86,22 +91,22 @@ const Login = () => {
       .then(async (result) => {
         const { user } = result;
         const idTokenResult = await user?.getIdTokenResult();
-        // createOrUpdateUser(idTokenResult.token)
-        //   .then((res) => {
-        //     dispatch({
-        //       type: 'LOGGED_IN_USER',
-        //       payload: {
-        //         name: res.data.name,
-        //         email: res.data.email,
-        //         token: idTokenResult.token,
-        //         role: res.data.role,
-        //         _id: res.data._id,
-        //       },
-        //     });
-        //     roleBasedRedirect(res);
-        //   })
-        //   .catch((err) => console.log(err));
-        //navigate("/");
+        createOrUpdateUser(idTokenResult!.token)
+          .then((res) => {
+            dispatch({
+              type: 'LOGGED_IN_USER',
+              payload: {
+                name: res.data.name,
+                email: res.data.email,
+                token: idTokenResult!.token,
+                role: res.data.role,
+                _id: res.data._id,
+              },
+            });
+            // roleBasedRedirect(res);
+          })
+          .catch((err) => console.log(err));
+        navigate('/');
       })
       .catch((err) => {
         console.log(err);
@@ -133,7 +138,7 @@ const Login = () => {
 
       <br />
       <Button
-        onClick={handleSubmit}
+        htmlType="submit"
         type="ghost"
         className="mt-3 mb-3 bg-accenlow hover:bg-accen cursor-pointer text-white"
         block
