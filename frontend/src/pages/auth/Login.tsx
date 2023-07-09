@@ -8,6 +8,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { createOrUpdateUser } from '../../functions/auth';
 import { AxiosResponse } from 'axios';
+import { userState } from '../../reducers/userReducer';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -17,7 +18,7 @@ const Login = () => {
   let navigate = useNavigate();
   let location = useLocation();
 
-  const { user } = useSelector((state: any) => ({ ...state }));
+  const { user } = useSelector((state: userState) => ({ ...state }));
   useEffect(() => {
     let intended = location.state;
     if (intended) {
