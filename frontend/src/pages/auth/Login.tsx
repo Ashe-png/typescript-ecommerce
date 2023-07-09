@@ -5,17 +5,9 @@ import { Button } from 'antd';
 import { MailOutlined, GoogleOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-//import ReactLoading from "react-loading";
 import { Link } from 'react-router-dom';
 import { createOrUpdateUser } from '../../functions/auth';
-
-// const roleBasedRedirect = (res) => {
-//   if (res.data.role === "admin") {
-//     navigate("/admin/dashboard");
-//   } else {
-//     navigate("/user/dashboard")
-//   }
-// }
+import { AxiosResponse } from 'axios';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -35,7 +27,7 @@ const Login = () => {
     }
   }, [user, navigate]);
 
-  const roleBasedRedirect = (res: any) => {
+  const roleBasedRedirect = (res: AxiosResponse) => {
     //check if intended
     let intended = location.state;
 
@@ -103,10 +95,10 @@ const Login = () => {
                 _id: res.data._id,
               },
             });
-            // roleBasedRedirect(res);
+            roleBasedRedirect(res);
           })
           .catch((err) => console.log(err));
-        navigate('/');
+        // navigate('/');
       })
       .catch((err) => {
         console.log(err);
