@@ -25,3 +25,8 @@ export const createOrUpdateUser = async (req: Request, res: Response) => {
     res.json(newUser);
   }
 };
+
+export const currentUser = async (req: Request, res: Response) => {
+  const user = await User.findOne({ email: req.body.user.email }).exec();
+  res.json(user);
+};
