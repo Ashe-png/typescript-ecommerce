@@ -1,5 +1,10 @@
 import { Schema, Types, model } from 'mongoose';
 
+export interface IImage {
+  public_id: string;
+  url: string;
+}
+
 export interface IProduct {
   title: string;
   slug: string;
@@ -9,7 +14,7 @@ export interface IProduct {
   subs: Array<Types.ObjectId>;
   quantity: number;
   sold: number;
-  images: ArrayConstructor;
+  images: Types.Array<IImage>;
   shipping: string;
   color: string;
   brand: string;
@@ -59,7 +64,7 @@ const productSchema = new Schema<IProduct>(
       default: 0,
     },
     images: {
-      type: Array,
+      type: [],
     },
     shipping: {
       type: String,
