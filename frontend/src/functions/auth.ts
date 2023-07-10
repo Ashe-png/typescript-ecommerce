@@ -11,3 +11,27 @@ export const createOrUpdateUser = async (authtoken: string) => {
     }
   );
 };
+
+export const currentUser = async (authtoken: string) => {
+  return await axios.post(
+    `${import.meta.env.VITE_REACT_APP_API}/current-user`,
+    {},
+    {
+      headers: {
+        authtoken: authtoken,
+      },
+    }
+  );
+};
+
+export const currentAdmin = async (authtoken: string) => {
+  return await axios.post(
+    `${import.meta.env.VITE_REACT_APP_API}/current-admin`,
+    {},
+    {
+      headers: {
+        authtoken: authtoken,
+      },
+    }
+  );
+};
