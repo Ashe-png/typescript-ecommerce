@@ -13,7 +13,7 @@ export const authCheck = async (
     const firebaseUser = await admin
       .auth()
       .verifyIdToken(req.headers.authtoken as string);
-    console.log('FIREBASE USER IN AUTHCHECK', firebaseUser);
+    // console.log('FIREBASE USER IN AUTHCHECK', firebaseUser);
     req.body.user = firebaseUser;
     next();
   } catch (err) {
