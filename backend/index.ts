@@ -8,11 +8,22 @@ require('dotenv').config();
 
 import userRoutes from './routes/user';
 import authRoutes from './routes/auth';
+import categoryRoutes from './routes/category';
+import subRoutes from './routes/sub';
+import productRoutes from './routes/product';
+import cloudinaryRoutes from './routes/cloudinary';
 
 //app
 const app = express();
 
-const routes = [userRoutes, authRoutes];
+const routes = [
+  userRoutes,
+  authRoutes,
+  categoryRoutes,
+  subRoutes,
+  productRoutes,
+  cloudinaryRoutes,
+];
 
 //db
 mongoose
