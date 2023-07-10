@@ -1,14 +1,15 @@
 import { useState, useEffect, FormEvent } from 'react';
-import { auth, googleAuthProvider } from '../../firebase';
+import { auth } from '../../firebase';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { userState } from '../../reducers/userReducer';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   let navigate = useNavigate();
-  const { user } = useSelector((state: any) => ({ ...state }));
+  const { user } = useSelector((state: userState) => ({ ...state }));
   useEffect(() => {
     if (user && user.token) navigate('/');
   }, [user]);
