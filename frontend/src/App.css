@@ -3,6 +3,8 @@
   padding: 0;
   margin: 0;
   scroll-behavior: smooth;
+
+  /* outline: red dashed 1px; */
 }
 
 body {
@@ -15,4 +17,35 @@ body {
 .sidebar {
   -webkit-animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.admindash {
+  @apply flex ss:flex-row flex-col w-full;
+}
+.sidenav {
+  @apply ss:w-[30%] ss:max-w-[232px] ss:p-3 bg-secon;
+}
+
+.adminpage {
+  @apply w-full;
+}
+
+.inputshadow {
+  @apply focus:outline-none focus:shadow-[0_0_30px_-5px_rgba(0,0,0,0.3)] focus:shadow-prim;
+}
+
+.table {
+  table-layout: auto;
+}
+
+.forminput {
+  @apply flex h-9 w-full rounded-md border border-input bg-back px-3 py-2 text-sm max-w-[514px];
+}
+
+.formlabel {
+  @apply text-sm font-medium leading-none;
+}
+
+.btn {
+  @apply inline-flex items-center justify-center rounded-md text-sm font-medium cursor-pointer h-10 px-4 py-2 text-primary-foreground;
 }
