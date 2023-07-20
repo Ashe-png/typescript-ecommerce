@@ -4,13 +4,13 @@ import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { ActionCodeSettings } from '@firebase/auth-types';
-import { userState } from '../../reducers/userReducer';
+import { RootState } from '../../reducers';
 
 const Register = () => {
   const [email, setEmail] = useState('');
 
   let navigate = useNavigate();
-  const { user } = useSelector((state: userState) => ({ ...state }));
+  const { user } = useSelector((state: RootState) => ({ ...state }));
   useEffect(() => {
     if (user && user.token) navigate('/');
   }, [user]);

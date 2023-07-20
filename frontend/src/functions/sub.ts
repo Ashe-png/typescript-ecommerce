@@ -1,11 +1,5 @@
 import axios from 'axios';
-
-export interface ISub {
-  name?: string;
-  slug?: string;
-  parent?: string;
-  _id?: string;
-}
+import { ISub } from './types';
 
 export const getSubs = async () => {
   return await axios.get(`${import.meta.env.VITE_REACT_APP_API}/subs`);

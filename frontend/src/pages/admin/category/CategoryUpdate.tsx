@@ -5,11 +5,11 @@ import { useSelector } from 'react-redux';
 import { getCategory, updateCategory } from '../../../functions/category';
 import { useParams, useNavigate } from 'react-router-dom';
 import CategoryForm from '../../../components/forms/CategoryForm';
-import { userState } from '../../../reducers/userReducer';
+import { RootState } from '../../../reducers';
 
 const CategoryUpdate = () => {
   let navigate = useNavigate();
-  const { user } = useSelector((state: userState) => ({ ...state }));
+  const { user } = useSelector((state: RootState) => ({ ...state }));
 
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);

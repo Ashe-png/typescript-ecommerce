@@ -2,17 +2,18 @@ import { useState, useEffect, FormEvent } from 'react';
 import { toast } from 'react-toastify';
 import AdminNav from '../../../components/nav/AdminNav';
 import { useSelector } from 'react-redux';
-import { ICategory, getCategories } from '../../../functions/category';
+import { getCategories } from '../../../functions/category';
 import { getSub, updateSub } from '../../../functions/sub';
 
 import { useParams, useNavigate } from 'react-router-dom';
 import CategoryForm from '../../../components/forms/CategoryForm';
-import { userState } from '../../../reducers/userReducer';
+import { RootState } from '../../../reducers';
+import { ICategory } from '../../../functions/types';
 
 const SubUpdate = () => {
   let navigate = useNavigate();
   let { slug } = useParams();
-  const { user } = useSelector((state: userState) => ({ ...state }));
+  const { user } = useSelector((state: RootState) => ({ ...state }));
 
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);

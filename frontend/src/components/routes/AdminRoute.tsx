@@ -3,10 +3,10 @@ import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import LoadingToRedirect from './LoadingToRedirect';
 import { currentAdmin } from '../../functions/auth';
-import { userState } from '../../reducers/userReducer';
+import { RootState } from '../../reducers';
 
 const AdminRoute = () => {
-  const { user } = useSelector((state: userState) => ({ ...state }));
+  const { user } = useSelector((state: RootState) => ({ ...state }));
   const [ok, setOk] = useState(false);
 
   useEffect(() => {

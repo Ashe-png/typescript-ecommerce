@@ -2,18 +2,22 @@ import { useState, useEffect, FormEvent } from 'react';
 import { toast } from 'react-toastify';
 import AdminNav from '../../../components/nav/AdminNav';
 import { useSelector } from 'react-redux';
-import { ICategory, getCategories } from '../../../functions/category';
-import { createSub, removeSub, getSubs, ISub } from '../../../functions/sub';
+import { getCategories } from '../../../functions/category';
+import { createSub, removeSub, getSubs } from '../../../functions/sub';
 import { Link } from 'react-router-dom';
 import { FormOutlined, DeleteOutlined } from '@ant-design/icons';
 // import { PencilSquare, TrashFill } from 'react-bootstrap-icons';
 import CategoryForm from '../../../components/forms/CategoryForm';
 import LocalSearch from '../../../components/forms/LocalSearch';
-import { userState } from '../../../reducers/userReducer';
+import { RootState } from '../../../reducers';
+import BrandImage from '../../../components/forms/BrandImage';
+import { ISub, ICategory } from '../../../functions/types';
 
 const SubCreate = () => {
-  const { user } = useSelector((state: userState) => ({ ...state }));
+  const { user } = useSelector((state: RootState) => ({ ...state }));
   const [name, setName] = useState('');
+  const [values, setValues] = useState<ISub>({});
+
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [category, setCategory] = useState('');
@@ -33,9 +37,9 @@ const SubCreate = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    console.log(name);
+
     setLoading(true);
-    createSub({ name, parent: category }, user!.token!)
+    createSub({ name, parent: category, ...values }, user!.token!)
       .then((res) => {
         console.log(res);
         setLoading(false);
@@ -104,6 +108,11 @@ const SubCreate = () => {
                 ))}
             </select>
           </div>
+          <BrandImage
+            values={values}
+            setValues={setValues}
+            setLoading={setLoading}
+          />
 
           <CategoryForm
             handleSubmit={handleSubmit}

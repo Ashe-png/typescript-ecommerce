@@ -1,10 +1,5 @@
 import axios from 'axios';
-
-export interface ICategory {
-  name?: string;
-  slug?: string;
-  _id?: string;
-}
+import { ICategory } from './types';
 
 export const getCategories = async () => {
   return await axios.get(`${import.meta.env.VITE_REACT_APP_API}/categories`);

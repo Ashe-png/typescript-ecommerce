@@ -2,8 +2,7 @@ import { Request, Response } from 'express';
 import Product from '../models/product';
 import User from '../models/user';
 import slugify from 'slugify';
-import { ICategory } from '../models/category';
-import { ISub } from '../models/sub';
+import { ICategory, ISub, IBrand } from '../models/types';
 
 export const create = async (req: Request, res: Response) => {
   try {
@@ -44,6 +43,7 @@ export const remove = async (req: Request, res: Response) => {
 
 export const read = async (req: Request, res: Response) => {
   const product = await Product.findOne({ slug: req.params.slug })
+    .populate('brand')
     .populate('category')
     .populate('subs')
     .exec();
@@ -87,14 +87,38 @@ export const update = async (req: Request, res: Response) => {
 //     }
 //  }
 
+// export const list = async (req: Request, res: Response) => {
+//   try {
+//     const { sort, order, page, perPage } = req.body;
+//     const currentPage = page || 1;
+//     // const perPage = 4;
+
+//     const products = await Product.find({})
+//       .skip((currentPage - 1) * perPage)
+//       .populate('brand')
+//       .populate('category')
+//       .populate('subs')
+//       .sort([[sort, order]])
+//       .limit(perPage)
+//       .exec();
+
+//     res.json(products);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+
 export const list = async (req: Request, res: Response) => {
   try {
-    const { sort, order, page } = req.body;
+    const { sort, order, page, quer } = req.body;
     const currentPage = page || 1;
-    const perPage = 4;
+    const perPage = 12;
+    const query: any = {};
+    query[quer] = true;
 
-    const products = await Product.find({})
+    const products = await Product.find(query)
       .skip((currentPage - 1) * perPage)
+      .populate('brand')
       .populate('category')
       .populate('subs')
       .sort([[sort, order]])
@@ -119,7 +143,7 @@ export const productStar = async (req: Request, res: Response) => {
 
   // who is updating?
   // check if currently logged in user have already added rating to this product?
-  let existingRatingObject = product?.ratings.find(
+  let existingRatingObject = product?.ratings?.find(
     (ele: any) => ele.postedBy.toString() === user?._id.toString()
   );
 
@@ -163,8 +187,11 @@ export const listRelated = async (req: Request, res: Response) => {
   res.json(related);
 };
 
-const handleQuery = async (req: Request, res: Response, query: any) => {
-  const products = await Product.find({ $text: { $search: query } })
+const handleQuery = async (req: Request, res: Response, query: string) => {
+  const products = await Product.find({
+    slug: { $regex: query, $options: 'i' },
+  })
+    .populate('brand', '_id name')
     .populate('category', '_id name')
     .populate('subs', '_id name')
     .exec();
@@ -181,6 +208,7 @@ const handlePrice = async (req: Request, res: Response, price: any) => {
         $lte: price[1],
       },
     })
+      .populate('brand', '_id name')
       .populate('category', '_id name')
       .populate('subs', '_id name')
       .exec();
@@ -198,6 +226,7 @@ const handleCategory = async (
 ) => {
   try {
     let products = await Product.find({ category })
+      .populate('brand', '_id name')
       .populate('category', '_id name')
       .populate('subs', '_id name')
       .exec();
@@ -208,34 +237,35 @@ const handleCategory = async (
   }
 };
 
-// const handleStar = (req: Request, res: Response, stars: any) => {
-//   Product.aggregate([
-//     {
-//       $project: {
-//         document: '$$ROOT',
-//         //title: '$title',
-//         floorAverage: {
-//           $floor: { $avg: '$ratings.star' },
-//         },
-//       },
-//     },
-//     { $match: { floorAverage: stars } },
-//   ])
-//     .limit(12)
-//     .exec((err, aggregates) => {
-//       if (err) console.log('aggregates error', err);
-//       Product.find({ _id: aggregates })
-//         .populate('category', '_id name')
-//         .populate('subs', '_id name')
-//         .exec((err, products) => {
-//           if (err) console.log('Product aggregate error', err);
-//           res.json(products);
-//         });
-//     });
-// };
+const handleStar = async (req: Request, res: Response, stars: string) => {
+  const starss = parseInt(stars);
+  const aggregates = await Product.aggregate([
+    {
+      $project: {
+        document: '$$ROOT',
+        //title: '$title',
+        floorAverage: {
+          $floor: { $avg: '$ratings.star' },
+        },
+      },
+    },
+    { $match: { floorAverage: { $gte: starss } } },
+  ])
+    .limit(12)
+    .exec();
+
+  const products = await Product.find({ _id: aggregates })
+    .populate('brand', '_id name')
+    .populate('category', '_id name')
+    .populate('subs', '_id name')
+    .exec();
+
+  res.json(products);
+};
 
 const handleSub = async (req: Request, res: Response, sub: ISub) => {
   const products = await Product.find({ subs: sub })
+    .populate('brand', '_id name')
     .populate('category', '_id name')
     .populate('subs', '_id name')
     .exec();
@@ -249,6 +279,7 @@ const handleShipping = async (
   shipping: boolean
 ) => {
   const products = await Product.find({ shipping })
+    .populate('brand', '_id name')
     .populate('category', '_id name')
     .populate('subs', '_id name')
     .exec();
@@ -258,6 +289,7 @@ const handleShipping = async (
 
 const handleColor = async (req: Request, res: Response, color: string) => {
   const products = await Product.find({ color })
+    .populate('brand', '_id name')
     .populate('category', '_id name')
     .populate('subs', '_id name')
     .exec();
@@ -265,8 +297,9 @@ const handleColor = async (req: Request, res: Response, color: string) => {
   res.json(products);
 };
 
-const handleBrand = async (req: Request, res: Response, brand: string) => {
+const handleBrand = async (req: Request, res: Response, brand: IBrand) => {
   const products = await Product.find({ brand })
+    .populate('brand', '_id name')
     .populate('category', '_id name')
     .populate('subs', '_id name')
     .exec();
@@ -292,10 +325,10 @@ export const searchFilters = async (req: Request, res: Response) => {
     await handleCategory(req, res, category);
   }
 
-  //   if (stars) {
-  //     console.log('stars--->', stars);
-  //     handleStar(req, res, stars);
-  //   }
+  if (stars) {
+    console.log('stars--->', stars);
+    handleStar(req, res, stars);
+  }
 
   if (sub) {
     console.log('subs---->', sub);
@@ -313,7 +346,7 @@ export const searchFilters = async (req: Request, res: Response) => {
   }
 
   if (brand) {
-    console.log('brnad--->', brand);
+    console.log('brand--->', brand);
     await handleBrand(req, res, brand);
   }
 };

@@ -3,13 +3,13 @@ import { auth } from '../../firebase';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { userState } from '../../reducers/userReducer';
+import { RootState } from '../../reducers';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   let navigate = useNavigate();
-  const { user } = useSelector((state: userState) => ({ ...state }));
+  const { user } = useSelector((state: RootState) => ({ ...state }));
   useEffect(() => {
     if (user && user.token) navigate('/');
   }, [user]);

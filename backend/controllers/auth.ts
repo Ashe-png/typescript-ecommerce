@@ -1,5 +1,5 @@
 import express, { Response, Request } from 'express';
-import User, { IUser } from '../models/user';
+import User from '../models/user';
 
 type NewType = Request;
 
