@@ -1,10 +1,9 @@
 import uniqid from 'uniqid';
 import { Request, Response } from 'express';
-import Cart from '../models/cart';
+import Cart, { ICart } from '../models/cart';
 import Product from '../models/product';
 import User from '../models/user';
 import slugify from 'slugify';
-import { ICart } from '../models/types';
 
 export const userCart = async (req: Request, res: Response) => {
   // console.log(req.body);

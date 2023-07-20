@@ -1,11 +1,15 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 
-export type userState = {
+type userT = {
   name: string | null;
   email: string | null;
   token: string | null;
   role: string | null;
   _id: string | null;
+};
+
+export type userState = {
+  user: userT;
 } | null;
 
 export const userReducer = (

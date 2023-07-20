@@ -1,5 +1,9 @@
 import { Schema, model, Types } from 'mongoose';
-import { IImage } from './types';
+
+export interface IImage {
+  title: string;
+  images: ArrayConstructor;
+}
 
 const imageSchema = new Schema<IImage>(
   {

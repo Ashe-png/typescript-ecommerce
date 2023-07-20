@@ -1,5 +1,12 @@
-import { Schema, model } from 'mongoose';
-import { IUser } from './types';
+import { Schema, model, Types } from 'mongoose';
+
+export interface IUser {
+  name: string;
+  email: string;
+  role: string;
+  cart: any;
+  address: string;
+}
 
 const userSchema = new Schema<IUser>(
   {
@@ -18,7 +25,7 @@ const userSchema = new Schema<IUser>(
       default: [],
     },
     address: String,
-    wishlist: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
+    // wishlist: [{ type: ObjectId, ref: 'Product' }],
   },
   { timestamps: true }
 );

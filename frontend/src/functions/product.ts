@@ -1,7 +1,30 @@
 import axios from 'axios';
-import { IProduct2 } from './types';
+import { ICategory } from './category';
 
-export const createProduct = async (product: IProduct2, authtoken: string) => {
+export interface IImage {
+  public_id: string;
+  url: string;
+}
+
+export interface IProduct {
+  _id?: string;
+  title?: string;
+  slug?: string;
+  description?: string;
+  price?: number;
+  categories?: Array<ICategory>;
+  category?: string;
+  subs?: Array<string>;
+  quantity?: number;
+  sold?: number;
+  images?: Array<IImage>;
+  shipping?: string;
+  color?: string;
+  brand?: string;
+  ratings?: any;
+}
+
+export const createProduct = async (product: IProduct, authtoken: string) => {
   return await axios.post(
     `${import.meta.env.VITE_REACT_APP_API}/product`,
     product,
@@ -38,7 +61,7 @@ export const getProduct = async (slug: string) => {
 
 export const updateProduct = async (
   slug: string,
-  product: IProduct2,
+  product: IProduct,
   authtoken: string
 ) => {
   return await axios.put(
@@ -52,19 +75,13 @@ export const updateProduct = async (
   );
 };
 
-export const getProducts = async (
-  sort: string,
-  order: string,
-  page: number,
-  quer: string
-) => {
-  return await axios.post(`${import.meta.env.VITE_REACT_APP_API}/products`, {
-    sort,
-    order,
-    page,
-    quer,
-  });
-};
+// export const getProducts = async (sort, order, page) => {
+//   return await axios.post(`${import.meta.env.VITE_REACT_APP_API}/products`, {
+//     sort,
+//     order,
+//     page,
+//   });
+// };
 
 export const getProductsCount = async () => {
   return await axios.get(
@@ -72,31 +89,27 @@ export const getProductsCount = async () => {
   );
 };
 
-export const productStar = async (
-  productId: string,
-  star: number,
-  authtoken: string
-) => {
-  return await axios.put(
-    `${import.meta.env.VITE_REACT_APP_API}/product/star/${productId}`,
-    { star },
-    {
-      headers: {
-        authtoken,
-      },
-    }
-  );
-};
+// export const productStar = async (productId: string, star, authtoken: string) => {
+//   return await axios.put(
+//     `${import.meta.env.VITE_REACT_APP_API}/product/star/${productId}`,
+//     { star },
+//     {
+//       headers: {
+//         authtoken,
+//       },
+//     }
+//   );
+// };
 
-export const getRelated = async (productId: string) => {
-  return await axios.get(
-    `${import.meta.env.VITE_REACT_APP_API}/product/related/${productId}`
-  );
-};
+// export const getRelated = async (productId) => {
+//   return await axios.get(
+//     `${import.meta.env.VITE_REACT_APP_API}/product/related/${productId}`
+//   );
+// };
 
-export const fetchProductsByFilter = async (arg: object) => {
-  return await axios.post(
-    `${import.meta.env.VITE_REACT_APP_API}/search/filter`,
-    arg
-  );
-};
+// export const fetchProductsByFilter = async (arg) => {
+//   return await axios.post(
+//     `${import.meta.env.VITE_REACT_APP_API}/search/filter`,
+//     arg
+//   );
+// };

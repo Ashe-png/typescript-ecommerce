@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent } from 'react';
 import { Select } from 'antd';
-import { IProduct2, ISub } from '../../functions/types';
+import { IProduct } from '../../functions/product';
+import { ISub } from '../../functions/sub';
 
 const { Option } = Select;
 
@@ -9,16 +10,8 @@ type Props = {
   handleChange: (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ) => void;
-  handleCheckChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleDelete: (index: number) => void;
-  handleDescriptionChange: (
-    index: number,
-    e: ChangeEvent<HTMLInputElement>
-  ) => void;
-  descriptionFields: string[];
-  setDescriptionFields: React.Dispatch<React.SetStateAction<string[]>>;
-  setValues: React.Dispatch<React.SetStateAction<IProduct2>>;
-  values: IProduct2;
+  setValues: React.Dispatch<React.SetStateAction<IProduct>>;
+  values: IProduct;
   handleCategoryChange: (e: ChangeEvent<HTMLSelectElement>) => void;
   subOptions: ISub[];
   showSub: boolean;
@@ -27,34 +20,16 @@ type Props = {
 const ProductCreateForm = ({
   handleSubmit,
   handleChange,
-  handleDelete,
-  descriptionFields,
-  setDescriptionFields,
-  handleCheckChange,
-  handleDescriptionChange,
   setValues,
   values,
   handleCategoryChange,
   subOptions,
   showSub,
 }: Props) => {
-  const { title, price, categories, brands, subs, quantity } = values;
-
-  const increaseDescription = () => {
-    setDescriptionFields([...descriptionFields, '']);
-  };
-
-  const handleDChange = (
-    index: number,
-    event: ChangeEvent<HTMLInputElement>
-  ) => {
-    const values = [...descriptionFields];
-    values[index] = event.target.value;
-    setDescriptionFields(values);
-  };
+  const { title, description, price, categories, subs, quantity } = values;
 
   const colors = ['Black', 'Brown', 'Silver', 'White', 'Blue'];
-
+  const brands = ['Apple', 'Samsung', 'Microsoft', 'Lenovo', 'Asus'];
   return (
     <form onSubmit={handleSubmit} className="space-y-3 w-full">
       <div className="">
@@ -71,37 +46,14 @@ const ProductCreateForm = ({
 
       <div className="input-group mb-4">
         <span className="formlabel">Description</span>
-        {descriptionFields.map((description, index) => (
-          <div key={index} className="flex-row flex">
-            <input
-              type="text"
-              name={`description[${index}]`}
-              className="forminput inputshadow mt-2 "
-              placeholder="Enter Product Description"
-              value={description}
-              onChange={(event) => {
-                handleDChange(index, event);
-                handleDescriptionChange(index, event);
-              }}
-            />
-            <button
-              type="button"
-              className="ml-3 mt-2 inline-flex justify-center items-center h-8 outline outline-1 py-1 px-2 rounded-lg bg-red-600 outline-red-600 text-primary-foreground"
-              onClick={() => {
-                handleDelete(index);
-              }}
-            >
-              delete
-            </button>
-          </div>
-        ))}
-        <button
-          type="button"
-          className="m-3 inline-flex justify-center items-center outline outline-1 h-8 py-1 px-2 rounded-lg bg-green-600 outline-green-600 text-primary-foreground"
-          onClick={increaseDescription}
-        >
-          Add
-        </button>
+        <input
+          type="text"
+          name="description"
+          className="forminput inputshadow "
+          placeholder="Enter Product Description"
+          value={description}
+          onChange={handleChange}
+        />
       </div>
 
       <div className="input-group mb-4">
@@ -168,12 +120,11 @@ const ProductCreateForm = ({
           onChange={handleChange}
         >
           <option>Please Select</option>
-          {brands!.length > 0 &&
-            brands!.map((b) => (
-              <option key={b._id} value={b._id}>
-                {b.name}
-              </option>
-            ))}
+          {brands.map((b) => (
+            <option key={b} value={b}>
+              {b}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -215,19 +166,6 @@ const ProductCreateForm = ({
           </span>
         </div>
       )}
-
-      <div className="input-group mb-4">
-        <span className="formlabel">New</span>
-        <input type="checkbox" name="news" onChange={handleCheckChange} />
-      </div>
-      <div className="input-group mb-4">
-        <span className="formlabel">BestSeller</span>
-        <input type="checkbox" name="bestseller" onChange={handleCheckChange} />
-      </div>
-      <div className="input-group mb-4">
-        <span className="formlabel">Featured</span>
-        <input type="checkbox" name="featured" onChange={handleCheckChange} />
-      </div>
 
       <button type="submit" className="btn bg-prim hover:bg-primhigh">
         Submit

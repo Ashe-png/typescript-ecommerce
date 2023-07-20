@@ -3,22 +3,21 @@ import { toast } from 'react-toastify';
 import AdminNav from '../../../components/nav/AdminNav';
 import { useSelector } from 'react-redux';
 import {
+  ICategory,
   createCategory,
   getCategories,
   removeCategory,
 } from '../../../functions/category';
 import { Link } from 'react-router-dom';
+
+import { userState } from '../../../reducers/userReducer';
 import { FormOutlined, DeleteOutlined } from '@ant-design/icons';
 // import { PencilSquare, TrashFill } from 'react-bootstrap-icons';
 import CategoryForm from '../../../components/forms/CategoryForm';
 import LocalSearch from '../../../components/forms/LocalSearch';
-import { RootState } from '../../../reducers';
-import BrandImage from '../../../components/forms/BrandImage';
-import { ICategory } from '../../../functions/types';
 
 const CategoryCreate = () => {
-  const [values, setValues] = useState<ICategory>({});
-  const { user } = useSelector((state: RootState) => ({ ...state }));
+  const { user } = useSelector((state: userState) => ({ ...state }));
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState<ICategory[]>([]);
@@ -38,7 +37,7 @@ const CategoryCreate = () => {
     e.preventDefault();
 
     setLoading(true);
-    createCategory({ ...values, name }, user!.token!)
+    createCategory({ name }, user!.token!)
       .then((res) => {
         console.log(res);
         setLoading(false);
@@ -87,12 +86,7 @@ const CategoryCreate = () => {
         ) : (
           <h4 className="text-center">Create Category</h4>
         )}
-        <div className=" px-4 py-3 space-y-3">
-          <BrandImage
-            values={values}
-            setValues={setValues}
-            setLoading={setLoading}
-          />
+        <div className="flex px-4 py-3 justify-center items-center w-full">
           <CategoryForm
             handleSubmit={handleSubmit}
             name={name}

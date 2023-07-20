@@ -2,19 +2,17 @@ import { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { toast } from 'react-toastify';
 import AdminNav from '../../../components/nav/AdminNav';
 import { useSelector } from 'react-redux';
-import { createProduct } from '../../../functions/product';
+import { IProduct, createProduct } from '../../../functions/product';
 import { getCategories, getCategorySubs } from '../../../functions/category';
 import ProductCreateForm from '../../../components/forms/ProductCreateForm';
 import FileUpload from '../../../components/forms/FileUpload';
 import { LoadingOutlined } from '@ant-design/icons';
-
-import { RootState } from '../../../reducers';
-import { getBrands } from '../../../functions/brand';
-import { IProduct2, ISub } from '../../../functions/types';
+import { userState } from '../../../reducers/userReducer';
+import { ISub } from '../../../functions/sub';
 
 const initialState = {
   title: '',
-  description: [],
+  description: '',
   price: 0,
   categories: [],
   category: '',
@@ -23,42 +21,25 @@ const initialState = {
   quantity: 0,
   images: [],
   color: 'Black',
-  brands: [],
   brand: '',
-  news: false,
-  featured: false,
-  bestseller: false,
 };
 
 const ProductCreate = () => {
-  const [values, setValues] = useState<IProduct2>(initialState);
+  const [values, setValues] = useState<IProduct>(initialState);
   const [subOptions, setSubOptions] = useState<ISub[]>([]);
   const [showSub, setShowSub] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [descriptionFields, setDescriptionFields] = useState<string[]>([]);
 
-  const { user } = useSelector((state: RootState) => ({ ...state }));
+  const { user } = useSelector((state: userState) => ({ ...state }));
 
   useEffect(() => {
-    loadCategoriesandBrands();
+    loadCategories();
   }, []);
 
-  const loadCategoriesandBrands = () => {
-    getBrands().then((b) => {
-      getCategories().then((c) => {
-        setValues({ ...values, categories: c.data, brands: b.data });
-      });
+  const loadCategories = () =>
+    getCategories().then((c) => {
+      setValues({ ...values, categories: c.data });
     });
-  };
-
-  const handleDelete = (index: number) => {
-    const newDescriptionFields = [...descriptionFields];
-    newDescriptionFields.splice(index, 1);
-    setDescriptionFields(newDescriptionFields);
-    const newValues = { ...values };
-    newValues.description = newDescriptionFields;
-    setValues(newValues);
-  };
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -79,22 +60,7 @@ const ProductCreate = () => {
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ) => {
     setValues({ ...values, [e.target.name]: e.target.value });
-  };
-
-  const handleCheckChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [e.target.name]: e.target.checked });
-  };
-
-  const handleDescriptionChange = (
-    index: number,
-    e: ChangeEvent<HTMLInputElement>
-  ) => {
-    // console.log(e);
-    const newValues = { ...values };
-    const newDescription = newValues.description;
-    newDescription![index] = e.target.value;
-    newValues.description = newDescription;
-    setValues(newValues);
+    // console.log(e.target.name, '------', e.target.value);
   };
 
   const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -131,13 +97,8 @@ const ProductCreate = () => {
           <ProductCreateForm
             handleSubmit={handleSubmit}
             handleChange={handleChange}
-            handleDelete={handleDelete}
-            handleCheckChange={handleCheckChange}
-            handleDescriptionChange={handleDescriptionChange}
             handleCategoryChange={handleCategoryChange}
             setValues={setValues}
-            descriptionFields={descriptionFields}
-            setDescriptionFields={setDescriptionFields}
             values={values}
             subOptions={subOptions}
             showSub={showSub}

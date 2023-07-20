@@ -1,5 +1,25 @@
-import { Schema, model } from 'mongoose';
-import { IProduct } from './types';
+import { Schema, Types, model } from 'mongoose';
+
+export interface IImage {
+  public_id: string;
+  url: string;
+}
+
+export interface IProduct {
+  title: string;
+  slug: string;
+  description: string;
+  price: number;
+  category: Types.ObjectId;
+  subs: Array<Types.ObjectId>;
+  quantity: number;
+  sold: number;
+  images: Types.Array<IImage>;
+  shipping: string;
+  color: string;
+  brand: string;
+  ratings: any;
+}
 
 const productSchema = new Schema<IProduct>(
   {
@@ -16,14 +36,12 @@ const productSchema = new Schema<IProduct>(
       lowercase: true,
       index: true,
     },
-    description: [
-      {
-        type: String,
-
-        maxlength: 2222,
-        text: true,
-      },
-    ],
+    description: {
+      type: String,
+      required: true,
+      maxlength: 2000,
+      text: true,
+    },
     price: {
       type: Number,
       required: true,
@@ -57,8 +75,8 @@ const productSchema = new Schema<IProduct>(
       enum: ['Black', 'Brown', 'Silver', 'White', 'Blue'],
     },
     brand: {
-      type: Schema.Types.ObjectId,
-      ref: 'Brand',
+      type: String,
+      enum: ['Apple', 'Samsung', 'Microsoft', 'Lenovo', 'Asus'],
     },
     ratings: [
       {
@@ -66,9 +84,6 @@ const productSchema = new Schema<IProduct>(
         postedBy: { type: Schema.Types.ObjectId, ref: 'User' },
       },
     ],
-    news: Boolean,
-    featured: Boolean,
-    bestseller: Boolean,
   },
   { timestamps: true }
 );

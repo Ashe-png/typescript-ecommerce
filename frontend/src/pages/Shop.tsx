@@ -24,7 +24,7 @@ const Shop = () => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [categoryIds, setCategoryIds] = useState<string[]>([]);
   const [brands, setBrands] = useState<IBrand[]>([]);
-
+  const [star, setStar] = useState('');
   const [collapsed, setCollapsed] = useState(false);
 
   const [subs, setSubs] = useState<ISub[]>([]);

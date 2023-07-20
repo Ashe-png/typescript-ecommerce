@@ -6,7 +6,6 @@ const links = [
   { title: 'Create Product', link: '/admin/product' },
   { title: 'View Products', link: '/admin/products' },
   { title: 'Category', link: '/admin/category' },
-  { title: 'Brand', link: '/admin/brand' },
   { title: 'Sub Category', link: '/admin/sub' },
   { title: 'Password', link: '/user/password' },
 ];

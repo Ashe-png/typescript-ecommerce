@@ -1,5 +1,10 @@
-import { Schema, model } from 'mongoose';
-import { ISub } from './types';
+import { Schema, Types, model } from 'mongoose';
+
+export interface ISub {
+  name: string;
+  slug: string;
+  parent: Types.ObjectId;
+}
 
 const subSchema = new Schema<ISub>(
   {
@@ -9,9 +14,6 @@ const subSchema = new Schema<ISub>(
       required: true,
       minlength: [3, 'Too short'],
       maxlength: [32, 'Too long'],
-    },
-    image: {
-      type: Object,
     },
     slug: {
       type: String,

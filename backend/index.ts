@@ -1,3 +1,4 @@
+import { readdirSync } from 'fs';
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
@@ -11,7 +12,6 @@ import categoryRoutes from './routes/category';
 import subRoutes from './routes/sub';
 import productRoutes from './routes/product';
 import cloudinaryRoutes from './routes/cloudinary';
-import brandRoutes from './routes/brand';
 
 //app
 const app = express();
@@ -23,7 +23,6 @@ const routes = [
   subRoutes,
   productRoutes,
   cloudinaryRoutes,
-  brandRoutes,
 ];
 
 function logMessage() {

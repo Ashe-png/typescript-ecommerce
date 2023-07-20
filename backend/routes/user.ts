@@ -1,28 +1,19 @@
 import express, { Response, Request } from 'express';
 
-const router1 = express.Router();
+const router = express.Router();
 
-import { authCheck, adminCheck } from '../middlewares/auth';
+// import { authCheck, adminCheck } from './middlewares/auth';
 
 //controller
-import {
-  userCart,
-  getUserCart,
-  emptyCart,
-  saveAddress,
-  addToWishlist,
-  wishlist,
-  removeFromWishlist,
-} from '../controllers/user';
+// const { createOrUpdateUser, currentUser } = require('../controllers/auth');
 
-router1.post('/user/cart', authCheck, userCart);
-router1.get('/user/cart', authCheck, getUserCart);
-router1.delete('/user/cart', authCheck, emptyCart);
-router1.post('/user/address', authCheck, saveAddress);
+// router.post('/create-or-update-user', authCheck, createOrUpdateUser);
+// router.post('/current-user', authCheck, currentUser);
+// router.post('/current-admin', authCheck, adminCheck, currentUser);
+router.get('/user', (req: Request, res: Response) => {
+  res.json({
+    data: 'hey you hit user api endpoint',
+  });
+});
 
-//wishlisht
-router1.post('/user/wishlist', authCheck, addToWishlist);
-router1.get('/user/wishlist', authCheck, wishlist);
-router1.put('/user/wishlist/:productId', authCheck, removeFromWishlist);
-
-export default router1;
+export default router;

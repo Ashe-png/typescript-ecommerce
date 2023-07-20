@@ -1,4 +1,5 @@
 import { FormEvent } from 'react';
+import { Button } from '@/components/ui/button';
 
 type Props = {
   handleSubmit: (e: FormEvent) => void;
@@ -18,12 +19,9 @@ const CategoryForm = ({ handleSubmit, name, setName }: Props) => {
         required
       />
 
-      <button
-        type="submit"
-        className="inline-flex items-center justify-center rounded-md font-normal text-primary-foreground cursor-pointer h-10 px-2 py-1 mt-2 hover:bg-primhigh bg-prim "
-      >
+      <Button type="submit" className="bg-prim">
         Submit
-      </button>
+      </Button>
     </form>
   );
 };
