@@ -26,6 +26,17 @@ const routes = [
   brandRoutes,
 ];
 
+function logMessage() {
+  // Replace this line with the action you want to perform every 14 minutes.
+  console.log('This message will be logged every 14 minutes.');
+}
+
+// Initial log
+logMessage();
+
+// Schedule the repeated log every 14 minutes
+const interval = 14 * 60 * 1000; // 14 minutes in milliseconds
+setInterval(logMessage, interval);
 //db
 mongoose
   .connect(process.env.DATABASE!)
