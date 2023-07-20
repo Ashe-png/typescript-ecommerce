@@ -6,7 +6,6 @@ import { ICategory, ISub, IBrand } from '../models/types';
 
 export const create = async (req: Request, res: Response) => {
   try {
-    console.log('thisishere', req.body);
     req.body.slug = slugify(req.body.title);
     const newProduct = await new Product(req.body).save();
     res.json(newProduct);
@@ -234,20 +233,6 @@ const handleSub = async (req: Request, res: Response, sub: ISub) => {
   res.json(products);
 };
 
-const handleShipping = async (
-  req: Request,
-  res: Response,
-  shipping: string
-) => {
-  const products = await Product.find({ shipping })
-    .populate('brand', '_id name')
-    .populate('category', '_id name')
-    .populate('subs', '_id name')
-    .exec();
-
-  res.json(products);
-};
-
 const handleColor = async (req: Request, res: Response, color: string) => {
   const products = await Product.find({ color })
     .populate('brand', '_id name')
@@ -269,8 +254,7 @@ const handleBrand = async (req: Request, res: Response, brand: IBrand) => {
 };
 
 export const searchFilters = async (req: Request, res: Response) => {
-  const { query, price, category, stars, sub, shipping, color, brand } =
-    req.body;
+  const { query, price, category, stars, sub, color, brand } = req.body;
 
   if (query) {
     await handleQuery(req, res, query);
@@ -294,11 +278,6 @@ export const searchFilters = async (req: Request, res: Response) => {
   if (sub) {
     console.log('subs---->', sub);
     await handleSub(req, res, sub);
-  }
-
-  if (shipping) {
-    console.log('shipping--->', shipping);
-    await handleShipping(req, res, shipping);
   }
 
   if (color) {
