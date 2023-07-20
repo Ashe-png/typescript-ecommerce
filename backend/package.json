@@ -23,7 +23,7 @@
     "express-jwt": "^8.4.1",
     "firebase-admin": "^11.9.0",
     "jsonwebtoken": "^9.0.1",
-    "mongoose": "^7.3.2",
+    "mongoose": "^5.11.97",
     "morgan": "^1.10.0",
     "slugify": "^1.6.6",
     "ts-node": "^10.9.1",
