@@ -5,8 +5,13 @@ import slugify from 'slugify';
 
 export const create = async (req: Request, res: Response) => {
   try {
-    const { name, parent } = req.body;
-    const sub = await new Sub({ name, parent, slug: slugify(name) }).save();
+    const { name, parent, image } = req.body;
+    const sub = await new Sub({
+      name,
+      parent,
+      slug: slugify(name),
+      image: image,
+    }).save();
     res.json(sub);
   } catch (err) {
     console.log(err);

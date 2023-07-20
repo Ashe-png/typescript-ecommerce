@@ -1,9 +1,5 @@
-import { Schema, model, Types } from 'mongoose';
-
-export interface ICategory {
-  name: string;
-  slug: string;
-}
+import { Schema, model } from 'mongoose';
+import { ICategory } from './types';
 
 const categorySchema = new Schema<ICategory>(
   {
@@ -13,6 +9,9 @@ const categorySchema = new Schema<ICategory>(
       required: true,
       minlength: [3, 'Too short'],
       maxlength: [32, 'Too long'],
+    },
+    image: {
+      type: Object,
     },
     slug: {
       type: String,

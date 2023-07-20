@@ -6,12 +6,46 @@
 
   /* outline: red dashed 1px; */
 }
-
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 body {
-  background-color: #ebf5ff;
-  padding-right: 2rem;
-  padding-left: 2rem;
+  background: url(./assets/back.jpg);
+
   color: #001628;
+}
+
+@-webkit-keyframes scale-up-ver-center {
+  0% {
+    -webkit-transform: scaleY(0.4);
+    transform: scaleY(0.4);
+  }
+  100% {
+    -webkit-transform: scaleY(1);
+    transform: scaleY(1);
+  }
+}
+@keyframes scale-up-ver-center {
+  0% {
+    -webkit-transform: scaleY(0.4);
+    transform: scaleY(0.4);
+  }
+  100% {
+    -webkit-transform: scaleY(1);
+    transform: scaleY(1);
+  }
+}
+
+.scale-up-ver-center {
+  -webkit-animation: scale-up-ver-center 0.4s
+    cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  animation: scale-up-ver-center 0.4s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+
+.section_padding {
+  @apply pr-7 pl-7;
 }
 
 .sidebar {
@@ -48,4 +82,11 @@ body {
 
 .btn {
   @apply inline-flex items-center justify-center rounded-md text-sm font-medium cursor-pointer h-10 px-4 py-2 text-primary-foreground;
+}
+
+.empty-icons {
+  display: flex !important;
+}
+.filled-icons {
+  display: -webkit-inline-box !important;
 }

@@ -1,4 +1,3 @@
-import { readdirSync } from 'fs';
 import express from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
@@ -12,6 +11,7 @@ import categoryRoutes from './routes/category';
 import subRoutes from './routes/sub';
 import productRoutes from './routes/product';
 import cloudinaryRoutes from './routes/cloudinary';
+import brandRoutes from './routes/brand';
 
 //app
 const app = express();
@@ -23,19 +23,9 @@ const routes = [
   subRoutes,
   productRoutes,
   cloudinaryRoutes,
+  brandRoutes,
 ];
 
-function logMessage() {
-  // Replace this line with the action you want to perform every 14 minutes.
-  console.log('This message will be logged every 14 minutes.');
-}
-
-// Initial log
-logMessage();
-
-// Schedule the repeated log every 14 minutes
-const interval = 14 * 60 * 1000; // 14 minutes in milliseconds
-setInterval(logMessage, interval);
 //db
 mongoose
   .connect(process.env.DATABASE!)

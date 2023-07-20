@@ -2,17 +2,17 @@ import Resizer from 'react-image-file-resizer';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { Avatar } from 'antd';
-import { IProduct } from '../../functions/product';
-import { userState } from '../../reducers/userReducer';
 import { ChangeEvent } from 'react';
+import { RootState } from '../../reducers';
+import { IProduct2 } from '../../functions/types';
 
 type Props = {
-  setValues: React.Dispatch<React.SetStateAction<IProduct>>;
-  values: IProduct;
+  setValues: React.Dispatch<React.SetStateAction<IProduct2>>;
+  values: IProduct2;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 const FileUpload = ({ values, setValues, setLoading }: Props) => {
-  const { user } = useSelector((state: userState) => ({ ...state }));
+  const { user } = useSelector((state: RootState) => ({ ...state }));
 
   const fileUploadAndResize = (e: ChangeEvent<HTMLInputElement>) => {
     // console.log(e.target.files);
@@ -96,7 +96,7 @@ const FileUpload = ({ values, setValues, setLoading }: Props) => {
       <div className="flex flex-row gap-4 flex-wrap">
         {values.images &&
           values.images.map((image) => (
-            <div>
+            <div key={image.public_id}>
               <Avatar src={image.url} shape="square" size={100} className="" />
               <div className="flex justify-center items-center">
                 <button

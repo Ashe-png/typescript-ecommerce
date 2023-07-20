@@ -96,7 +96,7 @@ const Shop = () => {
     //reset
     setCategoryIds([]);
     setPrice(value);
-
+    setStar('');
     setSub('');
     setBrand('');
     setColor('');
@@ -129,7 +129,7 @@ const Shop = () => {
       payload: { text: '' },
     });
     // setPrice([0, 0]);
-
+    setStar('');
     setSub('');
     setBrand('');
     setColor('');
@@ -162,7 +162,7 @@ const Shop = () => {
     setPrice([0, 0]);
     setCategoryIds([]);
     setSub('');
-
+    setStar(num);
     setBrand('');
     setColor('');
 
@@ -199,7 +199,7 @@ const Shop = () => {
     });
     setPrice([0, 0]);
     setCategoryIds([]);
-
+    setStar('');
     setSub(sub);
     setBrand('');
     setColor('');
@@ -229,7 +229,7 @@ const Shop = () => {
     });
     setPrice([0, 0]);
     setCategoryIds([]);
-
+    setStar('');
     setSub('');
     setBrand(e.target.value);
     setColor('');
@@ -260,7 +260,7 @@ const Shop = () => {
     });
     setPrice([0, 0]);
     setCategoryIds([]);
-
+    setStar('');
     // setSub('');
     setBrand('');
     setColor(e.target.value);
