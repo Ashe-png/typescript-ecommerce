@@ -69,45 +69,6 @@ export const update = async (req: Request, res: Response) => {
   }
 };
 
-//without pagination
-// export const list = async(req: Request, res: Response) => {
-//     try{
-//         const {sort, order, limit} = req.body
-//         const products = await Product.find({})
-//         .populate('category')
-//         .populate('subs')
-//         .sort([[sort, order]])
-//         .limit(limit)
-//         .exec();
-
-//         res.json(products);
-
-//     } catch(err) {
-//         console.log(err);
-//     }
-//  }
-
-// export const list = async (req: Request, res: Response) => {
-//   try {
-//     const { sort, order, page, perPage } = req.body;
-//     const currentPage = page || 1;
-//     // const perPage = 4;
-
-//     const products = await Product.find({})
-//       .skip((currentPage - 1) * perPage)
-//       .populate('brand')
-//       .populate('category')
-//       .populate('subs')
-//       .sort([[sort, order]])
-//       .limit(perPage)
-//       .exec();
-
-//     res.json(products);
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-
 export const list = async (req: Request, res: Response) => {
   try {
     const { sort, order, page, quer } = req.body;
@@ -276,7 +237,7 @@ const handleSub = async (req: Request, res: Response, sub: ISub) => {
 const handleShipping = async (
   req: Request,
   res: Response,
-  shipping: boolean
+  shipping: string
 ) => {
   const products = await Product.find({ shipping })
     .populate('brand', '_id name')
